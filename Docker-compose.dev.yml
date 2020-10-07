@@ -1,0 +1,50 @@
+version: "3.2"
+
+services:
+  gazelle:
+    image: gazelle-db-service
+    build:
+      context: .
+    command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    volumes:
+      - ./:/usr/src/app/
+    ports:
+      - 8081:8000
+    environment:
+      - TESTING=0
+      - WEB_APP_VERSION=0.0.1
+      - WEB_APP_TITLE=gazelle-br-cft
+      - WEB_APP_DESCRIPTION=This is a microservice to evaluate the CFT business rules
+      - DATABASE_DEV_URL=postgres://postgres:postgres@gazelle-db-2:5432/gazelle_dev
+      - DATABASE_PROD_URL=postgres://postgres:postgres@gazelle-db-2:5432/gazelle_prod
+      - DATABASE_TEST_URL=postgres://postgres:postgres@gazelle-db-2:5432/gazelle_test
+      - ENVIROMENT=dev # dev or prod
+      - DEFAULT_EXPIRE_TIME=3600
+    networks:
+      - gazelle
+
+  gazelle-db-2:
+    image: gazelle-db-2
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    expose:
+      - 5432
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db_gazelle_2:/var/lib/postgresql/data
+    networks:
+      - gazelle
+
+
+volumes:
+  db_gazelle_2:
+    external: true
+
+networks:
+  gazelle:
+    external: true
