@@ -4,8 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.api import api_router
-
-# from app.db import init_db
+from app.db import init_db
 
 log = logging.getLogger(__name__)
 
@@ -31,7 +30,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     log.info("Starting up...")
-    # init_db(app)
+    init_db(app)
 
 
 @app.on_event("shutdown")
