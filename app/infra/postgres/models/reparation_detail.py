@@ -16,6 +16,7 @@ class ReparationDetail(models.Model):
         null=True,
     )
     created_at = fields.DatetimeField(auto_now_add=True)
+    last_modified = fields.DatetimeField(auto_now=True)
     description = fields.CharField(max_length=255, pk=True)
     cost = fields.FloatField(default=0)
     spare_parts = fields.JSONField(null=True)
