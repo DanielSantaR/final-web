@@ -10,7 +10,6 @@ services:
       - ./:/usr/src/app/
     ports:
       - 8081:8000
-      - 8082:8010
     environment:
       - TESTING=0
       - WEB_APP_VERSION=0.0.1
