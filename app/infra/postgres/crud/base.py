@@ -49,7 +49,9 @@ class CRUDBase(ICrudBase[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     async def create(self, *, obj_in: CreateSchemaType) -> Union[dict, None]:
         obj_in_data = obj_in.dict()
+        print("+" * 20, obj_in_data)
         model = self.model(**obj_in_data)
+        print("*" * 20, model)
         await model.save()
         return model
 

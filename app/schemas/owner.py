@@ -4,7 +4,7 @@ from app.schemas.user import BaseUser, PayloadUser, UpdateUser, UserInDB
 
 
 class BaseOwner(BaseUser):
-    vehicle: int
+    pass
 
 
 class CreateOwner(BaseOwner):
