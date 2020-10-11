@@ -49,7 +49,7 @@ async def get_all(*, owner_in: PayloadOwner, skip: int = 0, limit: int = 99999):
         404: {"description": "Owner not found"},
     },
 )
-async def get_byid(*, owner_id: int):
+async def get_byid(*, owner_id: str):
     owner = await owner_service.get_owner_by_id(owner_id=owner_id)
     if not owner:
         return JSONResponse(status_code=404, content={"detail": "No owner found"})
@@ -66,7 +66,7 @@ async def get_byid(*, owner_id: int):
         404: {"description": "Owner not found"},
     },
 )
-async def remove(*, owner_id: int):
+async def remove(*, owner_id: str):
     owner_remove = await owner_service.remove_owner(owner_id=owner_id)
     status_code = 204 if owner_remove == 1 else 404
     return JSONResponse(status_code=status_code, content=owner_remove)
@@ -83,7 +83,7 @@ async def remove(*, owner_id: int):
         404: {"description": "Owner not found"},
     },
 )
-async def update(*, owner_id: int, owner_in: UpdateOwner):
+async def update(*, owner_id: str, owner_in: UpdateOwner):
     owner = await owner_service.update_owner(owner_id=owner_id, new_owner=owner_in)
     if not owner:
         return JSONResponse(status_code=404, content={"detail": "No owner found"})

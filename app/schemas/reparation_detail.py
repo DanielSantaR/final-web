@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class BaseReparationDetail(BaseModel):
-    vehicle: int
+    vehicle: str
     employee: str
     description: str
     cost: float

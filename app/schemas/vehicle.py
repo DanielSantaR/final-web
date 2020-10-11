@@ -28,8 +28,7 @@ class PayloadVehicle(BaseModel):
 
 
 class UpdateVehicle(BaseModel):
-    update_employee: str
-    plate: Optional[str]
+    update_employee: Optional[str]
     brand: Optional[str]
     model: Optional[str]
     color: Optional[str]

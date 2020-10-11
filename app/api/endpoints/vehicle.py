@@ -54,7 +54,7 @@ async def get_all(*, vehicle_in: PayloadVehicle, skip: int = 0, limit: int = 999
         404: {"description": "Vehicle not found"},
     },
 )
-async def get_byid(*, vehicle_id: int):
+async def get_byid(*, vehicle_id: str):
     vehicle = await vehicle_service.get_vehicle_by_id(vehicle_id=vehicle_id)
     if not vehicle:
         return JSONResponse(status_code=404, content={"detail": "No vehicle found"})
@@ -71,7 +71,7 @@ async def get_byid(*, vehicle_id: int):
         404: {"description": "Vehicle not found"},
     },
 )
-async def remove(*, vehicle_id: int):
+async def remove(*, vehicle_id: str):
     vehicle_remove = await vehicle_service.remove_vehicle(vehicle_id=vehicle_id)
     status_code = 204 if vehicle_remove == 1 else 404
     return JSONResponse(status_code=status_code, content=vehicle_remove)
@@ -88,7 +88,7 @@ async def remove(*, vehicle_id: int):
         404: {"description": "Vehicle not found"},
     },
 )
-async def update(*, vehicle_id: int, vehicle_in: UpdateVehicle):
+async def update(*, vehicle_id: str, vehicle_in: UpdateVehicle):
     vehicle = await vehicle_service.update_vehicle(
         vehicle_id=vehicle_id, new_vehicle=vehicle_in
     )

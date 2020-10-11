@@ -15,8 +15,8 @@ class VehicleService:
         new_vehicle_id = await self.__vehicle_queries.create(obj_in=vehicle)
         return new_vehicle_id
 
-    async def get_vehicle_by_id(self, vehicle_id: int) -> Union[dict, None]:
-        vehicle = await self.__vehicle_queries.get_by_id(id=vehicle_id)
+    async def get_vehicle_by_id(self, vehicle_id: str) -> Union[dict, None]:
+        vehicle = await self.__vehicle_queries.get_by_id(plate=vehicle_id)
         if vehicle:
             return vehicle
         return None
@@ -34,7 +34,7 @@ class VehicleService:
         return vehicles
 
     async def update_vehicle(
-        self, vehicle_id: int, new_vehicle: UpdateVehicle
+        self, vehicle_id: str, new_vehicle: UpdateVehicle
     ) -> Optional[Dict[str, Any]]:
         new_vehicle_data = new_vehicle.dict()
         payload = {
@@ -43,12 +43,12 @@ class VehicleService:
             if value not in [None, ""]
         }
         current_update = await self.__vehicle_queries.update(
-            id=vehicle_id, obj_in=payload
+            plate=vehicle_id, obj_in=payload
         )
         return current_update
 
-    async def remove_vehicle(self, vehicle_id: int) -> int:
-        vehicle_removed_id = await self.__vehicle_queries.delete(id=vehicle_id)
+    async def remove_vehicle(self, vehicle_id: str) -> int:
+        vehicle_removed_id = await self.__vehicle_queries.delete(plate=vehicle_id)
         return vehicle_removed_id
 
 
