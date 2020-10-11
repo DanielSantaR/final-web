@@ -29,11 +29,7 @@ class CRUDBase(ICrudBase[ModelType, CreateSchemaType, UpdateSchemaType]):
         return None
 
     async def get_all(
-        self,
-        *,
-        payload: dict = None,
-        skip: int = 0,
-        limit: int = 10,
+        self, *, payload: dict = None, skip: int = 0, limit: int = 10,
     ) -> List:
         if payload:
             model = (
@@ -49,9 +45,7 @@ class CRUDBase(ICrudBase[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     async def create(self, *, obj_in: CreateSchemaType) -> Union[dict, None]:
         obj_in_data = obj_in.dict()
-        print("+" * 20, obj_in_data)
         model = self.model(**obj_in_data)
-        print("*" * 20, model)
         await model.save()
         return model
 
