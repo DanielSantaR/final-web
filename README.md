@@ -253,10 +253,12 @@ This section explains the project by folder:
 
 ---
 ## Authors
-
-👤 **Johan Ospina Hincapié**
-
+👤 **Arley Berrío Arroyave**
+👤 **Daniel Torres González**
 👤 **Daniel Santa Rendón**
+👤 **Yoana Caro Taborda**
+👤 **Hector Mauricio Guerra Londoño**
+
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
