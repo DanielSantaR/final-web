@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from app.schemas.user import BaseUser, PayloadUser, UpdateUser, UserInDB
@@ -24,5 +25,8 @@ class UpdateOwner(UpdateUser):
 
 
 class OwnerInDB(UserInDB):
+    created_at: datetime
+    last_modified: datetime
+
     class Config:
         orm_mode = True

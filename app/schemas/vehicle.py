@@ -38,8 +38,14 @@ class UpdateVehicle(BaseModel):
 
 class VehicleInDB(BaseVehicle):
     # id: int
+    creation_employee_id: str
+    update_employee_id: str
     created_at: datetime
     last_modified: datetime
 
     class Config:
         orm_mode = True
+
+
+class Vehicle(VehicleInDB):
+    pass

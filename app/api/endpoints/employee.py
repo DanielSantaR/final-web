@@ -2,8 +2,10 @@ from typing import List
 
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
+from starlette.responses import Response
 
 from app.schemas.employee import (
+    AuthEmployee,
     CreateEmployee,
     EmployeeInDB,
     PayloadEmployee,
@@ -12,6 +14,24 @@ from app.schemas.employee import (
 from app.services.employee import employee_service
 
 router = APIRouter()
+
+
+@router.get(
+    "/auth/{username}/",
+    response_class=JSONResponse,
+    response_model=AuthEmployee,
+    status_code=200,
+    responses={
+        200: {"description": "Employee found"},
+        401: {"description": "User unauthorized"},
+        404: {"description": "Employee not found"},
+    },
+)
+async def auth(*, username: str):
+    employee = await employee_service.auth(username=username)
+    if not employee:
+        return JSONResponse(status_code=404, content={"detail": "No employee found"})
+    return employee
 
 
 @router.post(
@@ -63,9 +83,27 @@ async def get_byid(*, employee_id: str):
     return employee
 
 
+@router.get(
+    "/username/{username}/",
+    response_class=JSONResponse,
+    response_model=EmployeeInDB,
+    status_code=200,
+    responses={
+        200: {"description": "Employee found"},
+        401: {"description": "User unauthorized"},
+        404: {"description": "Employee not found"},
+    },
+)
+async def get_by_username(*, username: str):
+    employee = await employee_service.get_employee_by_username(username=username)
+    if not employee:
+        return JSONResponse(status_code=404, content={"detail": "No employee found"})
+    return employee
+
+
 @router.delete(
     "/{employee_id}/",
-    response_class=JSONResponse,
+    response_class=Response,
     status_code=204,
     responses={
         204: {"description": "Employee deleted"},
@@ -76,7 +114,7 @@ async def get_byid(*, employee_id: str):
 async def remove(*, employee_id: str):
     employee_remove = await employee_service.remove_employee(employee_id=employee_id)
     status_code = 204 if employee_remove == 1 else 404
-    return JSONResponse(status_code=status_code, content=employee_remove)
+    return Response(status_code=status_code)
 
 
 @router.put(

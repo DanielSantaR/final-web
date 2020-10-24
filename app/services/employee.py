@@ -15,8 +15,20 @@ class EmployeeService:
         new_employee_id = await self.__employee_queries.create(obj_in=employee)
         return new_employee_id
 
+    async def auth(self, username: str) -> Union[dict, None]:
+        employee = await self.__employee_queries.auth(username=username)
+        if employee:
+            return employee
+        return None
+
     async def get_employee_by_id(self, employee_id: str) -> Union[dict, None]:
         employee = await self.__employee_queries.get_by_id(identity_card=employee_id)
+        if employee:
+            return employee
+        return None
+
+    async def get_employee_by_username(self, username: str) -> Union[dict, None]:
+        employee = await self.__employee_queries.get_by_username(username=username)
         if employee:
             return employee
         return None

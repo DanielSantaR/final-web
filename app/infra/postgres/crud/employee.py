@@ -6,8 +6,20 @@ from app.schemas.employee import CreateEmployee, UpdateEmployee
 
 
 class CRUDEmployee(CRUDBase[Employee, CreateEmployee, UpdateEmployee]):
+    async def auth(self, *, username: str) -> Union[dict, None]:
+        model = await self.model.filter(username=username).first().values()
+        if model:
+            return model[0]
+        return None
+
     async def get_by_id(self, *, identity_card: str) -> Union[dict, None]:
         model = await self.model.filter(identity_card=identity_card).first().values()
+        if model:
+            return model[0]
+        return None
+
+    async def get_by_username(self, *, username: str) -> Union[dict, None]:
+        model = await self.model.filter(username=username).first().values()
         if model:
             return model[0]
         return None

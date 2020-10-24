@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
+from starlette.responses import Response
 
 from app.schemas.reparation_detail import (
     CreateReparationDetail,
@@ -73,7 +74,7 @@ async def get_byid(*, reparation_detail_id: int):
 
 @router.delete(
     "/{reparation_detail_id}/",
-    response_class=JSONResponse,
+    response_class=Response,
     status_code=204,
     responses={
         204: {"description": "ReparationDetail deleted"},
@@ -86,7 +87,7 @@ async def remove(*, reparation_detail_id: int):
         reparation_detail_id=reparation_detail_id
     )
     status_code = 204 if reparation_detail_remove == 1 else 404
-    return JSONResponse(status_code=status_code, content=reparation_detail_remove)
+    return Response(status_code=status_code, content=reparation_detail_remove)
 
 
 @router.put(

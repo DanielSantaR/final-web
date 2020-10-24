@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
+from starlette.responses import Response
 
 from app.schemas.vehicle import (
     CreateVehicle,
@@ -23,6 +24,7 @@ router = APIRouter()
 )
 async def create(*, vehicle_in: CreateVehicle):
     vehicle = await vehicle_service.create_vehicle(vehicle=vehicle_in)
+    print("&" * 20, vehicle)
     return vehicle
 
 
@@ -63,7 +65,7 @@ async def get_byid(*, vehicle_id: str):
 
 @router.delete(
     "/{vehicle_id}/",
-    response_class=JSONResponse,
+    response_class=Response,
     status_code=204,
     responses={
         204: {"description": "Vehicle deleted"},
@@ -74,7 +76,7 @@ async def get_byid(*, vehicle_id: str):
 async def remove(*, vehicle_id: str):
     vehicle_remove = await vehicle_service.remove_vehicle(vehicle_id=vehicle_id)
     status_code = 204 if vehicle_remove == 1 else 404
-    return JSONResponse(status_code=status_code, content=vehicle_remove)
+    return Response(status_code=status_code)
 
 
 @router.put(

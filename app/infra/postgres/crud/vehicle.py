@@ -37,9 +37,8 @@ class CRUDVehicle(CRUDBase[Vehicle, CreateVehicle, UpdateVehicle]):
             "creation_employee", None
         )
         vehicle_data["update_employee_id"] = vehicle_data.pop("update_employee", None)
-        vehicle = await self.model.create(
-            **vehicle_data,
-        )
+        vehicle = await self.model.create(**vehicle_data,)
+        print("$" * 30, vehicle)
         return vehicle
 
 

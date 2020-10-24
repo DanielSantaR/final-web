@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
+from starlette.responses import Response
 
 from app.schemas.owner import CreateOwner, OwnerInDB, PayloadOwner, UpdateOwner
 from app.services.owner import owner_service
@@ -58,7 +59,7 @@ async def get_byid(*, owner_id: str):
 
 @router.delete(
     "/{owner_id}/",
-    response_class=JSONResponse,
+    response_class=Response,
     status_code=204,
     responses={
         204: {"description": "Owner deleted"},
@@ -69,7 +70,7 @@ async def get_byid(*, owner_id: str):
 async def remove(*, owner_id: str):
     owner_remove = await owner_service.remove_owner(owner_id=owner_id)
     status_code = 204 if owner_remove == 1 else 404
-    return JSONResponse(status_code=status_code, content=owner_remove)
+    return Response(status_code=status_code)
 
 
 @router.put(
