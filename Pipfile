@@ -23,6 +23,7 @@ pre-commit = "*"
 pytest = "*"
 pytest-cov = "*"
 asynctest = "*"
+uvloop = "*"
 
 [requires]
 python_version = "3.8"
