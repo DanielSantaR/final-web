@@ -7,7 +7,7 @@ from app.schemas.user import BaseUser, PayloadUser, UpdateUser, UserInDB
 
 class Role(str, Enum):
     manager = "manager"
-    assitant = "assitant"
+    assistant = "assistant"
     supervisor = "supervisor"
     technician = "technician"
 
