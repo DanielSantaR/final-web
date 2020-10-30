@@ -25,7 +25,7 @@ class CreateEmployee(BaseEmployee):
 class PayloadEmployee(PayloadUser):
     username: Optional[str]
     is_active: Optional[bool]
-    role: Optional[Role]
+    role: Optional[str]
 
 
 class UpdateEmployee(UpdateUser):
