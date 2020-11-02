@@ -2,6 +2,7 @@ from tortoise import fields
 from tortoise.fields.base import SET_NULL
 
 from app.infra.postgres.models.user import User
+from app.infra.postgres.models.vehicle_x_owner import VehicleXOwner
 
 
 class Owner(User):
@@ -11,6 +12,4 @@ class Owner(User):
     update_employee = fields.ForeignKeyField(
         "models.Employee", related_name="owners_updated", on_delete=SET_NULL, null=True,
     )
-    vehicles = fields.ManyToManyField(
-        "models.Vehicle", related_name="owners", through="vehiclexowner"
-    )
+    owner_vehicles: fields.ReverseRelation[VehicleXOwner]
