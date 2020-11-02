@@ -23,3 +23,5 @@ class Vehicle(models.Model):
         on_delete=SET_NULL,
         null=True,
     )
+
+    # owners: fields.ManyToManyRelation["Owner"]

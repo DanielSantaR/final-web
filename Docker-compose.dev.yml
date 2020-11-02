@@ -9,7 +9,8 @@ services:
     volumes:
       - ./:/usr/src/app/
     ports:
-      - 7081:8000
+      - 7071:8000
+      - 10001:10001
     environment:
       - TESTING=0
       - WEB_APP_VERSION=0.0.1
@@ -19,6 +20,7 @@ services:
       - DATABASE_PROD_URL=postgres://postgres:postgres@taller-db:5432/taller_prod
       - DATABASE_TEST_URL=postgres://postgres:postgres@taller-db:5432/taller_test
       - ENVIROMENT=dev # dev or prod
+      - DEBUGGER=True
     networks:
       - taller
 

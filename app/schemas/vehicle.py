@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class BaseVehicle(BaseModel):
@@ -10,12 +10,13 @@ class BaseVehicle(BaseModel):
     model: str
     color: str
     vehicle_type: str
-    state: str
+    state: str = "received"
 
 
 class CreateVehicle(BaseVehicle):
     creation_employee: str
     update_employee: str
+    owners: List[str] = Field(..., min_items=1)
 
 
 class PayloadVehicle(BaseModel):
@@ -25,6 +26,7 @@ class PayloadVehicle(BaseModel):
     color: Optional[str]
     vehicle_type: Optional[str]
     state: Optional[str]
+    owners: Optional[str]
 
 
 class UpdateVehicle(BaseModel):
@@ -34,6 +36,7 @@ class UpdateVehicle(BaseModel):
     color: Optional[str]
     vehicle_type: Optional[str]
     state: Optional[str]
+    owners: Optional[List[str]] = Field(None, min_items=1)
 
 
 class VehicleInDB(BaseVehicle):

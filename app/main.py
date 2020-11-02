@@ -6,10 +6,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.api.api import api_router
 from app.db import init_db
 
+from .debugger import initialize_fastapi_server_debugger_if_needed
+
 log = logging.getLogger(__name__)
 
 
 def create_application() -> FastAPI:
+    initialize_fastapi_server_debugger_if_needed()
     application = FastAPI()
     application.include_router(api_router, prefix="/api")
     return application

@@ -24,7 +24,6 @@ router = APIRouter()
 )
 async def create(*, vehicle_in: CreateVehicle):
     vehicle = await vehicle_service.create_vehicle(vehicle=vehicle_in)
-    print("&" * 20, vehicle)
     return vehicle
 
 
