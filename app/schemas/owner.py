@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from app.schemas.user import BaseUser, PayloadUser, UpdateUser, UserInDB
+from app.schemas.user import BaseUser, UpdateUser, UserInDB
 
 
 class BaseOwner(BaseUser):
@@ -11,12 +11,6 @@ class BaseOwner(BaseUser):
 class CreateOwner(BaseOwner):
     creation_employee: str
     update_employee: str
-
-
-class PayloadOwner(PayloadUser):
-    creation_employee: Optional[str]
-    update_employee: Optional[str]
-    vehicle: Optional[int]
 
 
 class UpdateOwner(UpdateUser):

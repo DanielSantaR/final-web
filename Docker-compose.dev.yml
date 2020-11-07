@@ -20,7 +20,7 @@ services:
       - DATABASE_PROD_URL=postgres://postgres:postgres@taller-db:5432/taller_prod
       - DATABASE_TEST_URL=postgres://postgres:postgres@taller-db:5432/taller_test
       - ENVIROMENT=dev # dev or prod
-      - DEBUGGER=True
+      - DEBUGGER=True # True or False
     networks:
       - taller
 

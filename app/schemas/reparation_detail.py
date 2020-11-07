@@ -5,16 +5,15 @@ from pydantic import BaseModel
 
 
 class BaseReparationDetail(BaseModel):
-    vehicle: str
-    employee: str
     description: str
-    cost: float
-    spare_parts: List
+    cost: Optional[float]
+    spare_parts: Optional[List[str]]
     state: str
 
 
 class CreateReparationDetail(BaseReparationDetail):
-    pass
+    vehicle: str
+    employee: str
 
 
 class PayloadReparationDetail(BaseModel):
@@ -24,16 +23,16 @@ class PayloadReparationDetail(BaseModel):
 
 
 class UpdateReparationDetail(BaseModel):
-    vehicle: int
-    employee: Optional[str]
     description: Optional[str]
     cost: Optional[float]
-    spare_parts: Optional[List]
+    spare_parts: Optional[List[str]]
     state: Optional[str]
 
 
 class ReparationDetailInDB(BaseReparationDetail):
-    # id: int
+    id: int
+    vehicle_id: str
+    employee_id: str
     created_at: datetime
     last_modified: datetime
 

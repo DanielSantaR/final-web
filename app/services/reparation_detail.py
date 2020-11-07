@@ -2,11 +2,8 @@ from typing import Any, Dict, List, Optional, TypeVar, Union
 
 from app.crud.base import ICrudBase
 from app.infra.postgres.crud.reparation_detail import reparation_detail
-from app.schemas.reparation_detail import (
-    CreateReparationDetail,
-    PayloadReparationDetail,
-    UpdateReparationDetail,
-)
+from app.schemas.reparation_detail import CreateReparationDetail, UpdateReparationDetail
+from app.schemas.search import ReparationDetailQueryParams
 
 QueryType = TypeVar("QueryType", bound=ICrudBase)
 
@@ -34,9 +31,9 @@ class ReparationDetailService:
         return None
 
     async def get_all(
-        self, *, reparation_detail: PayloadReparationDetail, skip: int, limit: int
+        self, *, query_args: ReparationDetailQueryParams, skip: int, limit: int
     ) -> List:
-        reparation_detail_data = reparation_detail.dict()
+        reparation_detail_data = query_args.__dict__
         payload = {
             key: value
             for (key, value) in reparation_detail_data.items()

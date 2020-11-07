@@ -17,14 +17,6 @@ class CreateUser(BaseUser):
     pass
 
 
-class PayloadUser(BaseModel):
-    identity_card: Optional[str]
-    names: Optional[str]
-    surnames: Optional[str]
-    phone: Optional[str]
-    email: Optional[EmailStr]
-
-
 class UpdateUser(BaseModel):
     names: Optional[str]
     surnames: Optional[str]
@@ -33,7 +25,6 @@ class UpdateUser(BaseModel):
 
 
 class UserInDB(BaseUser):
-    # id: int
     created_at: datetime
     last_modified: datetime
 

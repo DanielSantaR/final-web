@@ -23,7 +23,14 @@ class CRUDOwner(CRUDBase[Owner, CreateOwner, UpdateOwner]):
         self, *, identity_card: str, obj_in: Dict[str, Any]
     ) -> Union[dict, None]:
         obj_in = get_right_keys(payload=obj_in, db_keys=DB_KEYS)
-        model = await self.model.filter(identity_card=identity_card).update(**obj_in)
+        if not obj_in:
+            model = (
+                await self.model.filter(identity_card=identity_card).first().values()
+            )
+        else:
+            model = await self.model.filter(identity_card=identity_card).update(
+                **obj_in
+            )
         if model:
             update_model = (
                 await self.model.filter(identity_card=identity_card).first().values()

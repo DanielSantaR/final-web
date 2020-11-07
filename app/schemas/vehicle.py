@@ -19,16 +19,6 @@ class CreateVehicle(BaseVehicle):
     owners: List[str] = Field(..., min_items=1)
 
 
-class PayloadVehicle(BaseModel):
-    plate: Optional[str]
-    brand: Optional[str]
-    model: Optional[str]
-    color: Optional[str]
-    vehicle_type: Optional[str]
-    state: Optional[str]
-    owners: Optional[str]
-
-
 class UpdateVehicle(BaseModel):
     update_employee: Optional[str]
     brand: Optional[str]
@@ -40,7 +30,6 @@ class UpdateVehicle(BaseModel):
 
 
 class VehicleInDB(BaseVehicle):
-    # id: int
     creation_employee_id: str
     update_employee_id: str
     created_at: datetime

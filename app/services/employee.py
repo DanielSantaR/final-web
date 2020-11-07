@@ -2,7 +2,8 @@ from typing import Any, Dict, List, Optional, TypeVar, Union
 
 from app.crud.base import ICrudBase
 from app.infra.postgres.crud.employee import employee
-from app.schemas.employee import CreateEmployee, PayloadEmployee, UpdateEmployee
+from app.schemas.employee import CreateEmployee, UpdateEmployee
+from app.schemas.search import EmployeeQueryParams
 
 QueryType = TypeVar("QueryType", bound=ICrudBase)
 
@@ -34,9 +35,9 @@ class EmployeeService:
         return None
 
     async def get_all(
-        self, *, employee: PayloadEmployee, skip: int, limit: int
+        self, *, query_args: EmployeeQueryParams, skip: int, limit: int
     ) -> List:
-        employee_data = employee.dict()
+        employee_data = query_args.__dict__
         payload = {
             key: value
             for (key, value) in employee_data.items()

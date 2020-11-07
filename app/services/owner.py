@@ -2,7 +2,8 @@ from typing import Any, Dict, List, Optional, TypeVar, Union
 
 from app.crud.base import ICrudBase
 from app.infra.postgres.crud.owner import owner
-from app.schemas.owner import CreateOwner, PayloadOwner, UpdateOwner
+from app.schemas.owner import CreateOwner, UpdateOwner
+from app.schemas.search import OwnerQueryParams
 
 QueryType = TypeVar("QueryType", bound=ICrudBase)
 
@@ -21,8 +22,10 @@ class OwnerService:
             return owner
         return None
 
-    async def get_all(self, *, owner: PayloadOwner, skip: int, limit: int) -> List:
-        owner_data = owner.dict()
+    async def get_all(
+        self, *, query_args: OwnerQueryParams, skip: int, limit: int
+    ) -> List:
+        owner_data = query_args.__dict__
         payload = {
             key: value for (key, value) in owner_data.items() if value not in [None, ""]
         }

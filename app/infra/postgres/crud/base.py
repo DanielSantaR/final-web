@@ -50,7 +50,10 @@ class CRUDBase(ICrudBase[ModelType, CreateSchemaType, UpdateSchemaType]):
         return model
 
     async def update(self, *, id: int, obj_in: Dict[str, Any]) -> Union[dict, None]:
-        model = await self.model.filter(id=id).update(**obj_in)
+        if not obj_in:
+            model = await self.model.filter(id=id).first().values()
+        else:
+            model = await self.model.filter(id=id).update(**obj_in)
         if model:
             update_model = await self.model.filter(id=id).first().values()
             model_m = self.model(**update_model[0])

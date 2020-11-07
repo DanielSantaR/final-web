@@ -2,7 +2,8 @@ from typing import Any, Dict, List, Optional, TypeVar, Union
 
 from app.crud.base import ICrudBase
 from app.infra.postgres.crud.vehicle import vehicle
-from app.schemas.vehicle import CreateVehicle, PayloadVehicle, UpdateVehicle
+from app.schemas.search import VehicleQueryParams
+from app.schemas.vehicle import CreateVehicle, UpdateVehicle
 
 QueryType = TypeVar("QueryType", bound=ICrudBase)
 
@@ -21,8 +22,10 @@ class VehicleService:
             return vehicle
         return None
 
-    async def get_all(self, *, vehicle: PayloadVehicle, skip: int, limit: int) -> List:
-        vehicle_data = vehicle.dict()
+    async def get_all(
+        self, *, query_args: VehicleQueryParams, skip: int, limit: int
+    ) -> List:
+        vehicle_data = query_args.__dict__
         payload = {
             key: value
             for (key, value) in vehicle_data.items()
