@@ -65,6 +65,32 @@ def test_create(test_app_with_db):
     assert response["role"] == data["role"]
     assert "password" not in response
 
+    # Third record
+    data = {
+        "identity_card": "2468",
+        "names": "Pablo",
+        "surnames": "Restrepo",
+        "phone": "3525532",
+        "email": "pablo@udea.edu.co",
+        "username": "pablo",
+        "is_active": True,
+        "role": "technician",
+        "password": "pablo",
+    }
+    response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(data),)
+
+    assert response.status_code == 201
+    response = response.json()
+    assert response["identity_card"] == data["identity_card"]
+    assert response["names"] == data["names"]
+    assert response["surnames"] == data["surnames"]
+    assert response["phone"] == data["phone"]
+    assert response["email"] == data["email"]
+    assert response["username"] == data["username"]
+    assert response["is_active"] == data["is_active"]
+    assert response["role"] == data["role"]
+    assert "password" not in response
+
 
 def test_bad_create(test_app_with_db):
     data = DATA.copy()
@@ -158,7 +184,7 @@ def test_get_all(test_app_with_db):
 
     assert response.status_code == 200
     response = response.json()
-    assert len(response) == 2
+    assert len(response) == 3
     response = response[0]
     assert response["identity_card"] == DATA["identity_card"]
     assert response["names"] == DATA["names"]

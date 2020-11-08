@@ -68,12 +68,12 @@ class OwnerQueryParams(UserQueryParams):
 class ReparationDetailQueryParams:
     def __init__(
         self,
-        vehicle: Optional[str] = None,
-        employee: Optional[str] = None,
+        vehicle_id: Optional[str] = None,
+        employee_id: Optional[str] = None,
         state: Optional[str] = None,
     ) -> None:
-        self.vehicle = vehicle
-        self.employee = employee
+        self.vehicle_id = vehicle_id
+        self.employee_id = employee_id
         self.state = state
 
 
