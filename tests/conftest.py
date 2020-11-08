@@ -23,7 +23,7 @@ def test_app():
         yield test_client
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def test_app_with_db():
     # set up
     app = create_application()
