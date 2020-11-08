@@ -40,7 +40,7 @@ async def create(*, vehicle_x_owner_in: CreateVehicleXOwner):
         404: {"description": "VehicleXOwner not found"},
     },
 )
-async def get_byid(*, id: str):
+async def get_byid(*, id: int):
     vehicle_x_owner = await vehicle_x_owner_service.get_vehicle_x_owner_by_id(
         vehicle_x_owner_id=id
     )

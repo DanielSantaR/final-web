@@ -23,7 +23,7 @@ def test_not_get_all(test_app_with_db):
     assert response == []
 
 
-def test_create_carrier(test_app_with_db):
+def test_create(test_app_with_db):
     # First record
     response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(DATA),)
 
@@ -66,7 +66,7 @@ def test_create_carrier(test_app_with_db):
     assert "password" not in response
 
 
-def test_bad_create_carrier(test_app_with_db):
+def test_bad_create(test_app_with_db):
     data = DATA.copy()
     data.pop("identity_card")
     response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(data),)

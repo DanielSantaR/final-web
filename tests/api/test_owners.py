@@ -21,7 +21,7 @@ def test_not_get_all(test_app_with_db):
     assert response == []
 
 
-def test_create_carrier(test_app_with_db):
+def test_create(test_app_with_db):
     # First record
     response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(DATA),)
 
@@ -57,8 +57,30 @@ def test_create_carrier(test_app_with_db):
     assert response["creation_employee_id"] == data["creation_employee_id"]
     assert response["update_employee_id"] == data["update_employee_id"]
 
+    # Third record
+    data = {
+        "identity_card": "9876",
+        "names": "Juan",
+        "surnames": "García",
+        "phone": "05496945",
+        "email": "juan@udea.edu.co",
+        "creation_employee_id": "1040050021",
+        "update_employee_id": "1040050021",
+    }
+    response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(data),)
 
-def test_bad_create_carrier(test_app_with_db):
+    assert response.status_code == 201
+    response = response.json()
+    assert response["identity_card"] == data["identity_card"]
+    assert response["names"] == data["names"]
+    assert response["surnames"] == data["surnames"]
+    assert response["phone"] == data["phone"]
+    assert response["email"] == data["email"]
+    assert response["creation_employee_id"] == data["creation_employee_id"]
+    assert response["update_employee_id"] == data["update_employee_id"]
+
+
+def test_bad_create(test_app_with_db):
     data = DATA.copy()
     data.pop("identity_card")
     response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(data),)
@@ -98,7 +120,7 @@ def test_get_all(test_app_with_db):
 
     assert response.status_code == 200
     response = response.json()
-    assert len(response) == 2
+    assert len(response) == 3
     response = response[0]
     assert response["identity_card"] == DATA["identity_card"]
     assert response["names"] == DATA["names"]

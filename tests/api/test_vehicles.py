@@ -22,7 +22,7 @@ def test_not_get_all(test_app_with_db):
     assert response == []
 
 
-def test_create_carrier(test_app_with_db):
+def test_create(test_app_with_db):
     # First record
     response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(DATA),)
 
@@ -61,8 +61,32 @@ def test_create_carrier(test_app_with_db):
     assert response["creation_employee_id"] == data["creation_employee_id"]
     assert response["update_employee_id"] == data["update_employee_id"]
 
+    # Third record
+    data = {
+        "plate": "FBI214",
+        "brand": "ford",
+        "model": "2018",
+        "color": "black",
+        "vehicle_type": "sport",
+        "state": "received",
+        "creation_employee_id": "1040050021",
+        "update_employee_id": "1040050021",
+    }
+    response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(data),)
 
-def test_bad_create_carrier(test_app_with_db):
+    assert response.status_code == 201
+    response = response.json()
+    assert response["plate"] == data["plate"]
+    assert response["brand"] == data["brand"]
+    assert response["model"] == data["model"]
+    assert response["color"] == data["color"]
+    assert response["vehicle_type"] == data["vehicle_type"]
+    assert response["state"] == data["state"]
+    assert response["creation_employee_id"] == data["creation_employee_id"]
+    assert response["update_employee_id"] == data["update_employee_id"]
+
+
+def test_bad_create(test_app_with_db):
     data = DATA.copy()
     data.pop("plate")
     response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(data),)
@@ -103,7 +127,7 @@ def test_get_all(test_app_with_db):
 
     assert response.status_code == 200
     response = response.json()
-    assert len(response) == 2
+    assert len(response) == 3
     response = response[0]
     assert response["plate"] == DATA["plate"]
     assert response["brand"] == DATA["brand"]
