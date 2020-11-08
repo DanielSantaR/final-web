@@ -11,11 +11,11 @@ class BaseVehicle(BaseModel):
     color: str
     vehicle_type: str
     state: str = "received"
+    creation_employee_id: str
+    update_employee_id: str
 
 
 class CreateVehicle(BaseVehicle):
-    creation_employee: str
-    update_employee: str
     owners: List[str] = Field(..., min_items=1)
 
 
@@ -30,14 +30,8 @@ class UpdateVehicle(BaseModel):
 
 
 class VehicleInDB(BaseVehicle):
-    creation_employee_id: str
-    update_employee_id: str
     created_at: datetime
     last_modified: datetime
 
     class Config:
         orm_mode = True
-
-
-class Vehicle(VehicleInDB):
-    pass

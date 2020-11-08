@@ -3,7 +3,6 @@ from typing import Any, Dict, Union
 from app.infra.postgres.crud.base import CRUDBase
 from app.infra.postgres.models.vehicle import Vehicle
 from app.schemas.vehicle import CreateVehicle, UpdateVehicle
-from app.utils.get_keys import get_right_keys
 
 DB_KEYS = {
     "creation_employee": "creation_employee_id",
@@ -19,7 +18,6 @@ class CRUDVehicle(CRUDBase[Vehicle, CreateVehicle, UpdateVehicle]):
         return None
 
     async def update(self, *, plate: str, obj_in: Dict[str, Any]) -> Union[dict, None]:
-        obj_in = get_right_keys(payload=obj_in, db_keys=DB_KEYS)
         if not obj_in:
             model = await self.model.filter(plate=plate).first().values()
         else:
@@ -38,10 +36,6 @@ class CRUDVehicle(CRUDBase[Vehicle, CreateVehicle, UpdateVehicle]):
 
     async def create(self, *, obj_in: CreateVehicle) -> Union[dict, None]:
         vehicle_data = obj_in.dict()
-        vehicle_data["creation_employee_id"] = vehicle_data.pop(
-            "creation_employee", None
-        )
-        vehicle_data["update_employee_id"] = vehicle_data.pop("update_employee", None)
         vehicle = await self.model.create(**vehicle_data)
         return vehicle
 

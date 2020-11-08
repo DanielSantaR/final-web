@@ -3,9 +3,6 @@ from typing import Any, Dict, Union
 from app.infra.postgres.crud.base import CRUDBase
 from app.infra.postgres.models.reparation_detail import ReparationDetail
 from app.schemas.reparation_detail import CreateReparationDetail, UpdateReparationDetail
-from app.utils.get_keys import get_right_keys
-
-DB_KEYS = {"vehicle": "vehicle_id", "employee": "employee_id"}
 
 
 class CRUDReparationDetail(
@@ -36,9 +33,6 @@ class CRUDReparationDetail(
 
     async def create(self, *, obj_in: CreateReparationDetail) -> Union[dict, None]:
         reparation_detail_data = obj_in.dict()
-        reparation_detail_data = get_right_keys(
-            payload=reparation_detail_data, db_keys=DB_KEYS
-        )
         detail = await self.model.create(**reparation_detail_data,)
 
         return detail

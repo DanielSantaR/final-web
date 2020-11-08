@@ -24,7 +24,9 @@ async def create(*, vehicle_in: CreateVehicle):
     vehicle = await vehicle_service.create_vehicle(vehicle=vehicle_in)
     if vehicle:
         for owner in vehicle_in.owners:
-            owner_vehicle = CreateVehicleXOwner(vehicle=vehicle_in.plate, owner=owner)
+            owner_vehicle = CreateVehicleXOwner(
+                vehicle_id=vehicle_in.plate, owner_id=owner
+            )
             await vehicle_x_owner.create(obj_in=owner_vehicle)
     return vehicle
 

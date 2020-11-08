@@ -5,8 +5,8 @@ from pydantic import BaseModel
 
 
 class BaseVehicleXOwner(BaseModel):
-    vehicle: str
-    owner: str
+    vehicle_id: str
+    owner_id: str
 
 
 class CreateVehicleXOwner(BaseVehicleXOwner):
@@ -14,8 +14,8 @@ class CreateVehicleXOwner(BaseVehicleXOwner):
 
 
 class PayloadVehicleXOwner(BaseModel):
-    vehicle: Optional[int]
-    owner: Optional[str]
+    vehicle_id: Optional[int]
+    owner_id: Optional[str]
 
 
 class UpdateVehicleXOwner(PayloadVehicleXOwner):

@@ -9,16 +9,17 @@ class BaseOwner(BaseUser):
 
 
 class CreateOwner(BaseOwner):
-    creation_employee: str
-    update_employee: str
+    creation_employee_id: str
+    update_employee_id: str
 
 
 class UpdateOwner(UpdateUser):
-    update_employee: Optional[str]
-    vehicle: Optional[int]
+    update_employee_id: Optional[str]
 
 
 class OwnerInDB(UserInDB):
+    creation_employee_id: str
+    update_employee_id: str
     created_at: datetime
     last_modified: datetime
 
