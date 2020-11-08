@@ -16,6 +16,18 @@ from app.services.employee import employee_service
 router = APIRouter()
 
 
+@router.post(
+    "",
+    response_class=JSONResponse,
+    response_model=EmployeeInDB,
+    status_code=201,
+    responses={201: {"description": " Employee created"}},
+)
+async def create(*, employee_in: CreateEmployee):
+    employee = await employee_service.create_employee(employee=employee_in)
+    return employee
+
+
 @router.get(
     "/auth/{username}",
     response_class=JSONResponse,
@@ -32,39 +44,6 @@ async def auth(*, username: str):
     if not employee:
         return JSONResponse(status_code=404, content={"detail": "No employee found"})
     return employee
-
-
-@router.post(
-    "",
-    response_class=JSONResponse,
-    response_model=EmployeeInDB,
-    status_code=201,
-    responses={201: {"description": " Employee created"}},
-)
-async def create(*, employee_in: CreateEmployee):
-    employee = await employee_service.create_employee(employee=employee_in)
-    return employee
-
-
-@router.get(
-    "",
-    response_class=JSONResponse,
-    response_model=List[EmployeeInDB],
-    status_code=200,
-    responses={
-        200: {"description": "Employees found"},
-        401: {"description": "User unauthorized"},
-    },
-)
-async def get_all(
-    *, query_args: EmployeeQueryParams = Depends(), skip: int = 0, limit: int = 99999
-):
-    employees = await employee_service.get_all(
-        query_args=query_args, skip=skip, limit=limit
-    )
-    if employees:
-        return employees
-    return []
 
 
 @router.get(
@@ -103,20 +82,25 @@ async def get_by_username(*, username: str):
     return employee
 
 
-@router.delete(
-    "/{id}",
-    response_class=Response,
-    status_code=204,
+@router.get(
+    "",
+    response_class=JSONResponse,
+    response_model=List[EmployeeInDB],
+    status_code=200,
     responses={
-        204: {"description": "Employee deleted"},
+        200: {"description": "Employees found"},
         401: {"description": "User unauthorized"},
-        404: {"description": "Employee not found"},
     },
 )
-async def remove(*, id: str):
-    employee_remove = await employee_service.remove_employee(employee_id=id)
-    status_code = 204 if employee_remove == 1 else 404
-    return Response(status_code=status_code)
+async def get_all(
+    *, query_args: EmployeeQueryParams = Depends(), skip: int = 0, limit: int = 99999
+):
+    employees = await employee_service.get_all(
+        query_args=query_args, skip=skip, limit=limit
+    )
+    if employees:
+        return employees
+    return []
 
 
 @router.put(
@@ -137,3 +121,19 @@ async def update(*, id: str, employee_in: UpdateEmployee):
     if not employee:
         return JSONResponse(status_code=404, content={"detail": "No employee found"})
     return employee
+
+
+@router.delete(
+    "/{id}",
+    response_class=Response,
+    status_code=204,
+    responses={
+        204: {"description": "Employee deleted"},
+        401: {"description": "User unauthorized"},
+        404: {"description": "Employee not found"},
+    },
+)
+async def remove(*, id: str):
+    employee_remove = await employee_service.remove_employee(employee_id=id)
+    status_code = 204 if employee_remove == 1 else 404
+    return Response(status_code=status_code)

@@ -53,7 +53,6 @@ class OwnerQueryParams(UserQueryParams):
         email: Optional[EmailStr] = None,
         creation_employee: Optional[str] = None,
         update_employee: Optional[bool] = None,
-        vehicle: Optional[int] = None,
     ) -> None:
         super().__init__(
             identity_card=identity_card,
@@ -64,7 +63,6 @@ class OwnerQueryParams(UserQueryParams):
         )
         self.creation_employee = creation_employee
         self.update_employee = update_employee
-        self.vehicle = vehicle
 
 
 class ReparationDetailQueryParams:
@@ -88,7 +86,6 @@ class VehicleQueryParams:
         color: Optional[str] = None,
         vehicle_type: Optional[str] = None,
         state: Optional[str] = None,
-        owner: Optional[str] = None,
     ) -> None:
         self.plate = plate
         self.brand = brand
@@ -96,4 +93,3 @@ class VehicleQueryParams:
         self.color = color
         self.vehicle_type = vehicle_type
         self.state = state
-        self.owner = owner

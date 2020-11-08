@@ -29,6 +29,28 @@ async def create(*, reparation_detail_in: CreateReparationDetail):
 
 
 @router.get(
+    "/{id}",
+    response_class=JSONResponse,
+    response_model=ReparationDetailInDB,
+    status_code=200,
+    responses={
+        200: {"description": "ReparationDetail found"},
+        401: {"description": "User unauthorized"},
+        404: {"description": "ReparationDetail not found"},
+    },
+)
+async def get_byid(*, id: int):
+    reparation_detail = await reparation_detail_service.get_reparation_detail_by_id(
+        reparation_detail_id=id
+    )
+    if not reparation_detail:
+        return JSONResponse(
+            status_code=404, content={"detail": "No reparation_detail found"}
+        )
+    return reparation_detail
+
+
+@router.get(
     "",
     response_class=JSONResponse,
     response_model=List[ReparationDetailInDB],
@@ -52,20 +74,20 @@ async def get_all(
     return []
 
 
-@router.get(
+@router.put(
     "/{id}",
     response_class=JSONResponse,
     response_model=ReparationDetailInDB,
     status_code=200,
     responses={
-        200: {"description": "ReparationDetail found"},
+        200: {"description": "ReparationDetail updated"},
         401: {"description": "User unauthorized"},
         404: {"description": "ReparationDetail not found"},
     },
 )
-async def get_byid(*, id: int):
-    reparation_detail = await reparation_detail_service.get_reparation_detail_by_id(
-        reparation_detail_id=id
+async def update(*, id: int, reparation_detail_in: UpdateReparationDetail):
+    reparation_detail = await reparation_detail_service.update_reparation_detail(
+        reparation_detail_id=id, new_reparation_detail=reparation_detail_in,
     )
     if not reparation_detail:
         return JSONResponse(
@@ -90,25 +112,3 @@ async def remove(*, id: int):
     )
     status_code = 204 if reparation_detail_remove == 1 else 404
     return status_code
-
-
-@router.put(
-    "/{id}",
-    response_class=JSONResponse,
-    response_model=ReparationDetailInDB,
-    status_code=200,
-    responses={
-        200: {"description": "ReparationDetail updated"},
-        401: {"description": "User unauthorized"},
-        404: {"description": "ReparationDetail not found"},
-    },
-)
-async def update(*, id: int, reparation_detail_in: UpdateReparationDetail):
-    reparation_detail = await reparation_detail_service.update_reparation_detail(
-        reparation_detail_id=id, new_reparation_detail=reparation_detail_in,
-    )
-    if not reparation_detail:
-        return JSONResponse(
-            status_code=404, content={"detail": "No reparation_detail found"}
-        )
-    return reparation_detail

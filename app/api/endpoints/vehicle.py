@@ -70,22 +70,6 @@ async def get_byid(*, id: str):
     return vehicle
 
 
-@router.delete(
-    "/{id}",
-    response_class=Response,
-    status_code=204,
-    responses={
-        204: {"description": "Vehicle deleted"},
-        401: {"description": "User unauthorized"},
-        404: {"description": "Vehicle not found"},
-    },
-)
-async def remove(*, id: str):
-    vehicle_remove = await vehicle_service.remove_vehicle(vehicle_id=id)
-    status_code = 204 if vehicle_remove == 1 else 404
-    return Response(status_code=status_code)
-
-
 @router.put(
     "/{id}",
     response_class=JSONResponse,
@@ -104,3 +88,19 @@ async def update(*, id: str, vehicle_in: UpdateVehicle):
     if not vehicle:
         return JSONResponse(status_code=404, content={"detail": "No vehicle found"})
     return vehicle
+
+
+@router.delete(
+    "/{id}",
+    response_class=Response,
+    status_code=204,
+    responses={
+        204: {"description": "Vehicle deleted"},
+        401: {"description": "User unauthorized"},
+        404: {"description": "Vehicle not found"},
+    },
+)
+async def remove(*, id: str):
+    vehicle_remove = await vehicle_service.remove_vehicle(vehicle_id=id)
+    status_code = 204 if vehicle_remove == 1 else 404
+    return Response(status_code=status_code)
