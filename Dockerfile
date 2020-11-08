@@ -41,3 +41,6 @@ RUN pip install --upgrade pip
 COPY . .
 RUN pip install -r requirements.txt
 EXPOSE 80
+
+# run entrypoint.sh for wait a conainer
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
