@@ -13,13 +13,9 @@ class CreateVehicleXOwner(BaseVehicleXOwner):
     pass
 
 
-class PayloadVehicleXOwner(BaseModel):
-    vehicle_id: Optional[int]
+class UpdateVehicleXOwner(BaseModel):
+    vehicle_id: Optional[str]
     owner_id: Optional[str]
-
-
-class UpdateVehicleXOwner(PayloadVehicleXOwner):
-    pass
 
 
 class VehicleXOwnerInDB(BaseVehicleXOwner):

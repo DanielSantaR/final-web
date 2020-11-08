@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class BaseVehicle(BaseModel):
@@ -16,7 +16,7 @@ class BaseVehicle(BaseModel):
 
 
 class CreateVehicle(BaseVehicle):
-    owners: List[str] = Field(..., min_items=1)
+    pass
 
 
 class UpdateVehicle(BaseModel):
@@ -26,7 +26,6 @@ class UpdateVehicle(BaseModel):
     color: Optional[str]
     vehicle_type: Optional[str]
     state: Optional[str]
-    owners: Optional[List[str]] = Field(None, min_items=1)
 
 
 class VehicleInDB(BaseVehicle):

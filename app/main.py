@@ -8,7 +8,7 @@ from app.db import init_db
 
 from .debugger import initialize_fastapi_server_debugger_if_needed
 
-log = logging.getLogger("uvicorn.error")
+log = logging.getLogger("uvicorn.info")
 
 
 def create_application() -> FastAPI:

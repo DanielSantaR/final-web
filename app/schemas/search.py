@@ -93,3 +93,11 @@ class VehicleQueryParams:
         self.color = color
         self.vehicle_type = vehicle_type
         self.state = state
+
+
+class VehicleXOwnerQueryParams:
+    def __init__(
+        self, vehicle_id: Optional[str] = None, owner_id: Optional[str] = None,
+    ) -> None:
+        self.vehicle_id = vehicle_id
+        self.owner_id = owner_id

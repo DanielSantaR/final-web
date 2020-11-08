@@ -6,9 +6,7 @@ from starlette.responses import Response
 
 from app.schemas.search import VehicleQueryParams
 from app.schemas.vehicle import CreateVehicle, UpdateVehicle, VehicleInDB
-from app.schemas.vehicle_x_owner import CreateVehicleXOwner
 from app.services.vehicle import vehicle_service
-from app.services.vehicle_x_owner import vehicle_x_owner
 
 router = APIRouter()
 
@@ -22,12 +20,6 @@ router = APIRouter()
 )
 async def create(*, vehicle_in: CreateVehicle):
     vehicle = await vehicle_service.create_vehicle(vehicle=vehicle_in)
-    if vehicle:
-        for owner in vehicle_in.owners:
-            owner_vehicle = CreateVehicleXOwner(
-                vehicle_id=vehicle_in.plate, owner_id=owner
-            )
-            await vehicle_x_owner.create(obj_in=owner_vehicle)
     return vehicle
 
 

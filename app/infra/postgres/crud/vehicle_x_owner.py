@@ -8,18 +8,14 @@ from app.schemas.vehicle_x_owner import CreateVehicleXOwner, UpdateVehicleXOwner
 class CRUDVehicleXOwner(
     CRUDBase[VehicleXOwner, CreateVehicleXOwner, UpdateVehicleXOwner]
 ):
-    async def get_by_id(self, *, vehicle: str, owner: str) -> Union[dict, None]:
-        model = (
-            await self.model.filter(vehicle_id=vehicle, owner_id=owner).first().values()
-        )
+    async def get_by_id(self, *, id: int) -> Union[dict, None]:
+        model = await self.model.filter(id=id).first().values()
         if model:
             return model[0]
         return None
 
-    async def delete(self, *, vehicle: str, owner: str) -> int:
-        model = (
-            await self.model.filter(vehicle_id=vehicle, owner_id=owner).first().delete()
-        )
+    async def delete(self, *, id: int) -> int:
+        model = await self.model.filter(id=id).first().delete()
         return model
 
     async def create(self, *, obj_in: CreateVehicleXOwner) -> Union[dict, None]:
