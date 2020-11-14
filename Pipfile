@@ -27,7 +27,6 @@ uvloop = "*"
 httptools = "*"
 email-validator = "*"
 debugpy = "*"
-httpx = "*"
 
 [requires]
 python_version = "3.8"
