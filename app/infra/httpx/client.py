@@ -93,7 +93,6 @@ class HTTPXClient:
 
         try:
             async with AsyncClient() as client:
-                # print("%" * 100, url_service, body, status_response)
                 response = await client.put(
                     url_service,
                     params=params,
@@ -104,8 +103,6 @@ class HTTPXClient:
                     timeout=timeout,
                     auth=auth,
                 )
-                # print("=" * 100, response, response.status_code, response.json())
-
                 json_response = (
                     response.json() if response.status_code == status_response else None
                 )

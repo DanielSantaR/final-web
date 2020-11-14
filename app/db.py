@@ -7,7 +7,7 @@ from app.config import Settings, get_settings
 
 settings: Settings = get_settings()
 
-log = logging.getLogger(__name__)  # new
+log = logging.getLogger("uvicorn.info")  # new
 
 
 def init_db(app: FastAPI) -> None:
@@ -15,6 +15,7 @@ def init_db(app: FastAPI) -> None:
     db_url = (
         settings.database_dev_url if enviroment == "dev" else settings.database_prod_url
     )
+    log.info(f"connected to the database {db_url}")
     register_tortoise(
         app,
         db_url=db_url,

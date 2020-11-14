@@ -25,6 +25,8 @@ pytest-cov = "*"
 asynctest = "*"
 uvloop = "*"
 httptools = "*"
+email-validator = "*"
+debugpy = "*"
 httpx = "*"
 
 [requires]

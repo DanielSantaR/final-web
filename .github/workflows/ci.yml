@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, develop ]
+
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  # Setup tests
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    # Create the network to comunicate both containers
+    - name: create network
+      run: |
+        docker network create taller
+    # Exec docker-compose to build the containers in background
+    - name: exec compose
+      run: |
+        docker-compose -f Docker-compose.ci.yml up --build -d
+    # Obtain test coverage to keep track of how much code is covering the tests
+    - name: get coverage
+      run: |
+        docker-compose -f Docker-compose.ci.yml exec -T taller python -m pytest --cov="."

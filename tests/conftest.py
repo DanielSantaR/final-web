@@ -2,7 +2,7 @@ import os
 
 import pytest
 from starlette.testclient import TestClient
-from tortoise.contrib.test import finalizer, initializer
+from tortoise.contrib.test import initializer  # finalizer
 
 from app.config import Settings, get_settings
 from app.main import create_application
@@ -23,10 +23,8 @@ def test_app():
         # testing
         yield test_client
 
-    # tear down
 
-
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def test_app_with_db():
     # set up
     app = create_application()
@@ -34,7 +32,8 @@ def test_app_with_db():
 
     # Link with DB for testing
     initializer(
-        ["app.infra.postgres.models"], db_url=os.environ.get("DATABASE_TEST_URL"),
+        ["app.infra.postgres.models"],
+        db_url=os.environ.get("DATABASE_TEST_URL"),
     )
 
     with TestClient(app) as test_client:
@@ -42,4 +41,4 @@ def test_app_with_db():
         yield test_client
 
     # tear down
-    finalizer()
+    # finalizer()

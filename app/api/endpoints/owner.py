@@ -1,17 +1,18 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from starlette.responses import Response
 
-from app.schemas.owner import CreateOwner, OwnerInDB, PayloadOwner, UpdateOwner
+from app.schemas.owner import CreateOwner, OwnerInDB, UpdateOwner
+from app.schemas.search import OwnerQueryParams
 from app.services.owner import owner_service
 
 router = APIRouter()
 
 
 @router.post(
-    "/",
+    "",
     response_class=JSONResponse,
     response_model=OwnerInDB,
     status_code=201,
@@ -22,25 +23,8 @@ async def create(*, owner_in: CreateOwner):
     return owner
 
 
-@router.post(
-    "/get-all/",
-    response_class=JSONResponse,
-    response_model=List[OwnerInDB],
-    status_code=200,
-    responses={
-        200: {"description": "Entities found"},
-        401: {"description": "User unauthorized"},
-    },
-)
-async def get_all(*, owner_in: PayloadOwner, skip: int = 0, limit: int = 99999):
-    owners = await owner_service.get_all(owner=owner_in, skip=skip, limit=limit)
-    if owners:
-        return owners
-    return []
-
-
 @router.get(
-    "/owner-id/{owner_id}/",
+    "/{id}",
     response_class=JSONResponse,
     response_model=OwnerInDB,
     status_code=200,
@@ -50,31 +34,36 @@ async def get_all(*, owner_in: PayloadOwner, skip: int = 0, limit: int = 99999):
         404: {"description": "Owner not found"},
     },
 )
-async def get_byid(*, owner_id: str):
-    owner = await owner_service.get_owner_by_id(owner_id=owner_id)
+async def get_byid(*, id: str):
+    owner = await owner_service.get_owner_by_id(owner_id=id)
     if not owner:
         return JSONResponse(status_code=404, content={"detail": "No owner found"})
     return owner
 
 
-@router.delete(
-    "/{owner_id}/",
-    response_class=Response,
-    status_code=204,
+@router.get(
+    "",
+    response_class=JSONResponse,
+    response_model=List[OwnerInDB],
+    status_code=200,
     responses={
-        204: {"description": "Owner deleted"},
+        200: {"description": "Owners found"},
         401: {"description": "User unauthorized"},
-        404: {"description": "Owner not found"},
     },
 )
-async def remove(*, owner_id: str):
-    owner_remove = await owner_service.remove_owner(owner_id=owner_id)
-    status_code = 204 if owner_remove == 1 else 404
-    return Response(status_code=status_code)
+async def get_all(
+    *, query_args: OwnerQueryParams = Depends(), skip: int = 0, limit: int = 99999
+):
+    employees = await owner_service.get_all(
+        query_args=query_args, skip=skip, limit=limit
+    )
+    if employees:
+        return employees
+    return []
 
 
-@router.put(
-    "/{owner_id}/",
+@router.patch(
+    "/{id}",
     response_class=JSONResponse,
     response_model=OwnerInDB,
     status_code=200,
@@ -84,8 +73,24 @@ async def remove(*, owner_id: str):
         404: {"description": "Owner not found"},
     },
 )
-async def update(*, owner_id: str, owner_in: UpdateOwner):
-    owner = await owner_service.update_owner(owner_id=owner_id, new_owner=owner_in)
+async def update(*, id: str, owner_in: UpdateOwner):
+    owner = await owner_service.update_owner(owner_id=id, new_owner=owner_in)
     if not owner:
         return JSONResponse(status_code=404, content={"detail": "No owner found"})
     return owner
+
+
+@router.delete(
+    "/{id}",
+    response_class=Response,
+    status_code=204,
+    responses={
+        204: {"description": "Owner deleted"},
+        401: {"description": "User unauthorized"},
+        404: {"description": "Owner not found"},
+    },
+)
+async def remove(*, id: str):
+    owner_remove = await owner_service.remove_owner(owner_id=id)
+    status_code = 204 if owner_remove == 1 else 404
+    return Response(status_code=status_code)

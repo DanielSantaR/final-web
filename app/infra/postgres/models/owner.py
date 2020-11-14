@@ -2,6 +2,7 @@ from tortoise import fields
 from tortoise.fields.base import SET_NULL
 
 from app.infra.postgres.models.user import User
+from app.infra.postgres.models.vehicle_x_owner import VehicleXOwner
 
 
 class Owner(User):
@@ -17,6 +18,4 @@ class Owner(User):
         on_delete=SET_NULL,
         null=True,
     )
-    vehicle = fields.ManyToManyField(
-        "models.Vehicle", related_name="owners", through="vehículoxpropietario"
-    )
+    owner_vehicles: fields.ReverseRelation[VehicleXOwner]

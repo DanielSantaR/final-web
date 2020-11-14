@@ -10,21 +10,13 @@ class BaseVehicle(BaseModel):
     model: str
     color: str
     vehicle_type: str
-    state: str
+    state: str = "received"
+    creation_employee_id: str
+    update_employee_id: str
 
 
 class CreateVehicle(BaseVehicle):
-    creation_employee: str
-    update_employee: str
-
-
-class PayloadVehicle(BaseModel):
-    plate: Optional[str]
-    brand: Optional[str]
-    model: Optional[str]
-    color: Optional[str]
-    vehicle_type: Optional[str]
-    state: Optional[str]
+    pass
 
 
 class UpdateVehicle(BaseModel):
@@ -37,15 +29,8 @@ class UpdateVehicle(BaseModel):
 
 
 class VehicleInDB(BaseVehicle):
-    # id: int
-    creation_employee_id: str
-    update_employee_id: str
     created_at: datetime
     last_modified: datetime
 
     class Config:
         orm_mode = True
-
-
-class Vehicle(VehicleInDB):
-    pass

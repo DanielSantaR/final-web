@@ -18,7 +18,10 @@ class CRUDVehicle(CRUDBase[Vehicle, CreateVehicle, UpdateVehicle]):
         return None
 
     async def update(self, *, plate: str, obj_in: Dict[str, Any]) -> Union[dict, None]:
-        model = await self.model.filter(plate=plate).update(**obj_in)
+        if not obj_in:
+            model = await self.model.filter(plate=plate).first().values()
+        else:
+            model = await self.model.filter(plate=plate).update(**obj_in)
         if model:
             update_model = await self.model.filter(plate=plate).first().values()
             model_m = self.model(**update_model[0])
@@ -33,12 +36,7 @@ class CRUDVehicle(CRUDBase[Vehicle, CreateVehicle, UpdateVehicle]):
 
     async def create(self, *, obj_in: CreateVehicle) -> Union[dict, None]:
         vehicle_data = obj_in.dict()
-        vehicle_data["creation_employee_id"] = vehicle_data.pop(
-            "creation_employee", None
-        )
-        vehicle_data["update_employee_id"] = vehicle_data.pop("update_employee", None)
-        vehicle = await self.model.create(**vehicle_data,)
-        print("$" * 30, vehicle)
+        vehicle = await self.model.create(**vehicle_data)
         return vehicle
 
 

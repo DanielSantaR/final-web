@@ -1,6 +1,8 @@
 from tortoise import fields, models
 from tortoise.fields.base import SET_NULL
 
+from app.infra.postgres.models.vehicle_x_owner import VehicleXOwner
+
 
 class Vehicle(models.Model):
     plate = fields.CharField(max_length=255, pk=True)
@@ -23,3 +25,5 @@ class Vehicle(models.Model):
         on_delete=SET_NULL,
         null=True,
     )
+
+    vehicle_owners: fields.ReverseRelation[VehicleXOwner]

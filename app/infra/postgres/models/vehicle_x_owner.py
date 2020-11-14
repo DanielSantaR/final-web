@@ -2,22 +2,21 @@ from tortoise import fields, models
 from tortoise.fields.base import SET_NULL
 
 
-class ReparationDetail(models.Model):
+class VehicleXOwner(models.Model):
     vehicle = fields.ForeignKeyField(
         "models.Vehicle",
-        related_name="vehicles",
+        related_name="vehicle_owners",
         on_delete=SET_NULL,
         null=True,
     )
-    employee = fields.ForeignKeyField(
-        "models.Employee",
-        related_name="employees",
+    owner = fields.ForeignKeyField(
+        "models.Owner",
+        related_name="owner_vehicles",
         on_delete=SET_NULL,
         null=True,
     )
     created_at = fields.DatetimeField(auto_now_add=True)
     last_modified = fields.DatetimeField(auto_now=True)
-    description = fields.CharField(max_length=255)
-    cost = fields.FloatField(default=0)
-    spare_parts = fields.JSONField(null=True)
-    state = fields.CharField(max_length=255)
+
+    class Meta:
+        unique_together = ("vehicle", "owner")
