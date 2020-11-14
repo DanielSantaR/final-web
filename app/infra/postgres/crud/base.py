@@ -29,7 +29,11 @@ class CRUDBase(ICrudBase[ModelType, CreateSchemaType, UpdateSchemaType]):
         return None
 
     async def get_all(
-        self, *, payload: dict = None, skip: int = 0, limit: int = 10,
+        self,
+        *,
+        payload: dict = None,
+        skip: int = 0,
+        limit: int = 10,
     ) -> List:
         if payload:
             model = (

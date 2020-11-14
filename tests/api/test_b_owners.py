@@ -23,7 +23,10 @@ def test_not_get_all(test_app_with_db):
 
 def test_create(test_app_with_db):
     # First record
-    response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(DATA),)
+    response = test_app_with_db.post(
+        f"{PREFIX}",
+        data=json.dumps(DATA),
+    )
 
     assert response.status_code == 201
     response = response.json()
@@ -45,7 +48,10 @@ def test_create(test_app_with_db):
         "creation_employee_id": "1040050021",
         "update_employee_id": "1040050021",
     }
-    response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(data),)
+    response = test_app_with_db.post(
+        f"{PREFIX}",
+        data=json.dumps(data),
+    )
 
     assert response.status_code == 201
     response = response.json()
@@ -67,7 +73,10 @@ def test_create(test_app_with_db):
         "creation_employee_id": "1040050021",
         "update_employee_id": "1040050021",
     }
-    response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(data),)
+    response = test_app_with_db.post(
+        f"{PREFIX}",
+        data=json.dumps(data),
+    )
 
     assert response.status_code == 201
     response = response.json()
@@ -83,7 +92,10 @@ def test_create(test_app_with_db):
 def test_bad_create(test_app_with_db):
     data = DATA.copy()
     data.pop("identity_card")
-    response = test_app_with_db.post(f"{PREFIX}", data=json.dumps(data),)
+    response = test_app_with_db.post(
+        f"{PREFIX}",
+        data=json.dumps(data),
+    )
 
     assert response.status_code == 422
     response = response.json()
@@ -163,7 +175,7 @@ def test_not_get_all_with_filter(test_app_with_db):
 
 def test_update(test_app_with_db):
     update_data = {"email": "daniel@guane.com.co"}
-    response = test_app_with_db.put(
+    response = test_app_with_db.patch(
         f"{PREFIX}/1040050021", data=json.dumps(update_data)
     )
 
@@ -183,7 +195,7 @@ def test_update(test_app_with_db):
 
 def test_empty_update(test_app_with_db):
     update_data = {}
-    response = test_app_with_db.put(
+    response = test_app_with_db.patch(
         f"{PREFIX}/1040050021", data=json.dumps(update_data)
     )
 
@@ -202,7 +214,7 @@ def test_empty_update(test_app_with_db):
 
 def test_not_update(test_app_with_db):
     update_data = {"email": "daniel.santar@udea.edu.co"}
-    response = test_app_with_db.put(f"{PREFIX}/1040", data=json.dumps(update_data))
+    response = test_app_with_db.patch(f"{PREFIX}/1040", data=json.dumps(update_data))
 
     assert response.status_code == 404
     response = response.json()
@@ -212,7 +224,7 @@ def test_not_update(test_app_with_db):
 def test_bad_update(test_app_with_db):
     # Test enum and email validations
     update_data = {"email": "daniel@"}
-    response = test_app_with_db.put(
+    response = test_app_with_db.patch(
         f"{PREFIX}/1040050021", data=json.dumps(update_data)
     )
 

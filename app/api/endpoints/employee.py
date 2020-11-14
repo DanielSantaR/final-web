@@ -103,7 +103,7 @@ async def get_all(
     return []
 
 
-@router.put(
+@router.patch(
     "/{id}",
     response_class=JSONResponse,
     response_model=EmployeeInDB,

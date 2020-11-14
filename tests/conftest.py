@@ -31,7 +31,8 @@ def test_app_with_db():
 
     # Link with DB for testing
     initializer(
-        ["app.infra.postgres.models"], db_url=os.environ.get("DATABASE_TEST_URL"),
+        ["app.infra.postgres.models"],
+        db_url=os.environ.get("DATABASE_TEST_URL"),
     )
 
     with TestClient(app) as test_client:

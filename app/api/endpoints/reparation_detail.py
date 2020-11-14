@@ -74,7 +74,7 @@ async def get_all(
     return []
 
 
-@router.put(
+@router.patch(
     "/{id}",
     response_class=JSONResponse,
     response_model=ReparationDetailInDB,
@@ -87,7 +87,8 @@ async def get_all(
 )
 async def update(*, id: int, reparation_detail_in: UpdateReparationDetail):
     reparation_detail = await reparation_detail_service.update_reparation_detail(
-        reparation_detail_id=id, new_reparation_detail=reparation_detail_in,
+        reparation_detail_id=id,
+        new_reparation_detail=reparation_detail_in,
     )
     if not reparation_detail:
         return JSONResponse(

@@ -7,9 +7,15 @@ from app.infra.postgres.models.vehicle_x_owner import VehicleXOwner
 
 class Owner(User):
     creation_employee = fields.ForeignKeyField(
-        "models.Employee", related_name="owners_created", on_delete=SET_NULL, null=True,
+        "models.Employee",
+        related_name="owners_created",
+        on_delete=SET_NULL,
+        null=True,
     )
     update_employee = fields.ForeignKeyField(
-        "models.Employee", related_name="owners_updated", on_delete=SET_NULL, null=True,
+        "models.Employee",
+        related_name="owners_updated",
+        on_delete=SET_NULL,
+        null=True,
     )
     owner_vehicles: fields.ReverseRelation[VehicleXOwner]

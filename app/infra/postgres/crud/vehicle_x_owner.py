@@ -20,7 +20,9 @@ class CRUDVehicleXOwner(
 
     async def create(self, *, obj_in: CreateVehicleXOwner) -> Union[dict, None]:
         vehicle_x_owner_data = obj_in.dict()
-        vehicle_x_owner = await self.model.create(**vehicle_x_owner_data,)
+        vehicle_x_owner = await self.model.create(
+            **vehicle_x_owner_data,
+        )
         return vehicle_x_owner
 
 

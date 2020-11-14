@@ -33,7 +33,9 @@ class CRUDReparationDetail(
 
     async def create(self, *, obj_in: CreateReparationDetail) -> Union[dict, None]:
         reparation_detail_data = obj_in.dict()
-        detail = await self.model.create(**reparation_detail_data,)
+        detail = await self.model.create(
+            **reparation_detail_data,
+        )
 
         return detail
 

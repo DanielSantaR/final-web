@@ -62,7 +62,7 @@ async def get_byid(*, id: str):
     return vehicle
 
 
-@router.put(
+@router.patch(
     "/{id}",
     response_class=JSONResponse,
     response_model=VehicleInDB,
