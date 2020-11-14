@@ -103,7 +103,6 @@ class HTTPXClient:
                     timeout=timeout,
                     auth=auth,
                 )
-
                 json_response = (
                     response.json() if response.status_code == status_response else None
                 )
