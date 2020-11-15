@@ -103,3 +103,13 @@ class VehicleXOwnerQueryParams:
     ) -> None:
         self.vehicle_id = vehicle_id
         self.owner_id = owner_id
+
+
+class OwnerTokenQueryParams:
+    def __init__(
+        self,
+        code: Optional[str] = None,
+        owner_id: Optional[str] = None,
+    ) -> None:
+        self.code = code
+        self.owner_id = owner_id

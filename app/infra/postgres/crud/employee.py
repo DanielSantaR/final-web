@@ -27,6 +27,8 @@ class CRUDEmployee(CRUDBase[Employee, CreateEmployee, UpdateEmployee]):
     async def update(
         self, *, identity_card: str, obj_in: Dict[str, Any]
     ) -> Union[dict, None]:
+        if "role" in obj_in:
+            obj_in["role"] = obj_in["role"].value
         if not obj_in:
             model = (
                 await self.model.filter(identity_card=identity_card).first().values()
