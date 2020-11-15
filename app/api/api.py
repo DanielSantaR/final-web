@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from app.api.endpoints import (
     employee,
     owner,
+    owner_token,
     reparation_detail,
     root,
     vehicle,
@@ -18,3 +19,6 @@ api_router.include_router(
     vehicle_x_owner.router, prefix="/vehicles-x-owners", tags=["vehicles-x-owners"]
 )
 api_router.include_router(reparation_detail.router, prefix="/details", tags=["details"])
+api_router.include_router(
+    owner_token.router, prefix="/owner-tokens", tags=["owner-tokens"]
+)

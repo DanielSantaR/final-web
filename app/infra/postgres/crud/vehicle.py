@@ -4,11 +4,6 @@ from app.infra.postgres.crud.base import CRUDBase
 from app.infra.postgres.models.vehicle import Vehicle
 from app.schemas.vehicle import CreateVehicle, UpdateVehicle
 
-DB_KEYS = {
-    "creation_employee": "creation_employee_id",
-    "update_employee": "update_employee_id",
-}
-
 
 class CRUDVehicle(CRUDBase[Vehicle, CreateVehicle, UpdateVehicle]):
     async def get_by_id(self, *, plate: str) -> Union[dict, None]:
