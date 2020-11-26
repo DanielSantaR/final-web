@@ -4,7 +4,9 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from starlette.responses import Response
 
+from app.schemas.owner import OwnerInDB
 from app.schemas.search import VehicleXOwnerQueryParams
+from app.schemas.vehicle import VehicleInDB
 from app.schemas.vehicle_x_owner import (
     CreateVehicleXOwner,
     UpdateVehicleXOwner,
@@ -67,11 +69,49 @@ async def get_all(
     skip: int = 0,
     limit: int = 99999
 ):
-    employees = await vehicle_x_owner_service.get_all(
+    owner_vehicles = await vehicle_x_owner_service.get_all(
         query_args=query_args, skip=skip, limit=limit
     )
-    if employees:
-        return employees
+    if owner_vehicles:
+        return owner_vehicles
+    return []
+
+
+@router.get(
+    "/owner/{owner_id}/vehicles",
+    response_class=JSONResponse,
+    response_model=List[VehicleInDB],
+    status_code=200,
+    responses={
+        200: {"description": "Vehicles found"},
+        401: {"description": "User unauthorized"},
+    },
+)
+async def get_all_owner_vehicles(*, owner_id: str, skip: int = 0, limit: int = 99999):
+    owner_vehicles = await vehicle_x_owner_service.get_all_owner_vehicles(
+        owner_id=owner_id, skip=skip, limit=limit
+    )
+    if owner_vehicles:
+        return owner_vehicles
+    return []
+
+
+@router.get(
+    "/vehicle/{vehicle_id}/owners",
+    response_class=JSONResponse,
+    response_model=List[OwnerInDB],
+    status_code=200,
+    responses={
+        200: {"description": "Owners found"},
+        401: {"description": "User unauthorized"},
+    },
+)
+async def get_all_vehicle_owners(*, vehicle_id: str, skip: int = 0, limit: int = 99999):
+    owner_vehicles = await vehicle_x_owner_service.get_all_vehicle_owners(
+        vehicle_id=vehicle_id, skip=skip, limit=limit
+    )
+    if owner_vehicles:
+        return owner_vehicles
     return []
 
 
@@ -110,6 +150,24 @@ async def update(*, id: str, vehicle_x_owner_in: UpdateVehicleXOwner):
 async def remove(*, id: str):
     vehicle_x_owner_remove = await vehicle_x_owner_service.remove_vehicle_x_owner(
         vehicle_x_owner_id=id
+    )
+    status_code = 204 if vehicle_x_owner_remove == 1 else 404
+    return Response(status_code=status_code)
+
+
+@router.delete(
+    "/vehicle/{vehicle_id}/owner/{owner_id}",
+    response_class=Response,
+    status_code=204,
+    responses={
+        204: {"description": "VehicleXOwner deleted"},
+        401: {"description": "User unauthorized"},
+        404: {"description": "VehicleXOwner not found"},
+    },
+)
+async def remove_vehicle_owner(*, owner_id: str, vehicle_id: str):
+    vehicle_x_owner_remove = await vehicle_x_owner_service.remove_vehicle_x_owner_by_id(
+        owner_id=owner_id, vehicle_id=vehicle_id
     )
     status_code = 204 if vehicle_x_owner_remove == 1 else 404
     return Response(status_code=status_code)

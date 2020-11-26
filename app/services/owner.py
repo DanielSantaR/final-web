@@ -48,7 +48,7 @@ class OwnerService:
         )
         return current_update
 
-    async def remove_owner(self, owner_id: int) -> int:
+    async def remove_owner(self, owner_id: str) -> int:
         owner_removed_id = await self.__owner_queries.delete(identity_card=owner_id)
         return owner_removed_id
 

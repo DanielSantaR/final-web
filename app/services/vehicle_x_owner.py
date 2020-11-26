@@ -44,6 +44,22 @@ class VehicleXOwnerService:
         )
         return vehicle_x_owners
 
+    async def get_all_owner_vehicles(
+        self, *, owner_id: str, skip: int, limit: int
+    ) -> List:
+        vehicle_x_owners = await self.__vehicle_x_owner_queries.get_all_owner_vehicles(
+            owner_id=owner_id, skip=skip, limit=limit
+        )
+        return vehicle_x_owners
+
+    async def get_all_vehicle_owners(
+        self, *, vehicle_id: str, skip: int, limit: int
+    ) -> List:
+        vehicle_x_owners = await self.__vehicle_x_owner_queries.get_all_vehicle_owners(
+            vehicle_id=vehicle_id, skip=skip, limit=limit
+        )
+        return vehicle_x_owners
+
     async def update_vehicle_x_owner(
         self, vehicle_x_owner_id: str, new_vehicle_x_owner: UpdateVehicleXOwner
     ) -> Optional[Dict[str, Any]]:
@@ -61,6 +77,14 @@ class VehicleXOwnerService:
     async def remove_vehicle_x_owner(self, vehicle_x_owner_id: int) -> int:
         vehicle_x_owner_removed_id = await self.__vehicle_x_owner_queries.delete(
             id=vehicle_x_owner_id
+        )
+        return vehicle_x_owner_removed_id
+
+    async def remove_vehicle_x_owner_by_id(self, owner_id: str, vehicle_id: str) -> int:
+        vehicle_x_owner_removed_id = (
+            await self.__vehicle_x_owner_queries.delete_owner_vehicle(
+                owner_id=owner_id, vehicle_id=vehicle_id
+            )
         )
         return vehicle_x_owner_removed_id
 
