@@ -126,7 +126,7 @@ async def get_all_vehicle_owners(*, vehicle_id: str, skip: int = 0, limit: int =
         404: {"description": "VehicleXOwner not found"},
     },
 )
-async def update(*, id: str, vehicle_x_owner_in: UpdateVehicleXOwner):
+async def update(*, id: int, vehicle_x_owner_in: UpdateVehicleXOwner):
     vehicle_x_owner = await vehicle_x_owner_service.update_vehicle_x_owner(
         vehicle_x_owner_id=id, new_vehicle_x_owner=vehicle_x_owner_in
     )
@@ -147,7 +147,7 @@ async def update(*, id: str, vehicle_x_owner_in: UpdateVehicleXOwner):
         404: {"description": "VehicleXOwner not found"},
     },
 )
-async def remove(*, id: str):
+async def remove(*, id: int):
     vehicle_x_owner_remove = await vehicle_x_owner_service.remove_vehicle_x_owner(
         vehicle_x_owner_id=id
     )

@@ -1,26 +1,18 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import Any, Dict, List, TypeVar, Union
 
 from pydantic import BaseModel
+from tortoise import models
 
 from app.crud.base import ICrudBase
 
-ModelType = TypeVar("ModelType", bound=Any)
+ModelType = TypeVar("ModelType", bound=models.Model)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
 class CRUDBase(ICrudBase[ModelType, CreateSchemaType, UpdateSchemaType]):
-    def __init__(self, model: Type[ModelType]):
-        """
-        CRUD object with default methods to Create, Read, Update, Delete (CRUD).
-        **Parameters**
-        * `model`: A SQLAlchemy model class
-        * `schema`: A Pydantic model (schema) class
-        """
+    def __init__(self, model: ModelType):
         self.model = model
-
-    async def model(self) -> ModelType:
-        return self.model
 
     async def get_by_id(self, *, id: int) -> Union[dict, None]:
         model = await self.model.filter(id=id).first().values()
