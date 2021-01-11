@@ -7,8 +7,8 @@ log = logging.getLogger(__name__)
 
 
 class Settings(BaseSettings):
-    DATABASE_DEV_URL: AnyUrl
-    DATABASE_PROD_URL: AnyUrl
+    DATABASE_DEV_URL: AnyUrl = ""
+    DATABASE_PROD_URL: AnyUrl = ""
     TESTING: int = 0
     ENVIROMENT: str
     WEB_APP_TITLE: str
