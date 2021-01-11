@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
@@ -53,7 +53,7 @@ async def get_byid(*, id: int):
 @router.get(
     "",
     response_class=JSONResponse,
-    response_model=List[ReparationDetailInDB],
+    response_model=Optional[List[ReparationDetailInDB]],
     status_code=200,
     responses={
         200: {"description": "Details found"},

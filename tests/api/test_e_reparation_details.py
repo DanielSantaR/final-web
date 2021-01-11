@@ -165,7 +165,11 @@ def test_not_get_all_with_filter(test_app_with_db):
 
 
 def test_update(test_app_with_db):
-    update_data = {"description": "tires are being changed", "state": "in process"}
+    update_data = {
+        "description": "tires are being changed",
+        "state": "in process",
+        "employee_id": "1040050021",
+    }
     response = test_app_with_db.patch(f"{PREFIX}/1", data=json.dumps(update_data))
 
     assert response.status_code == 200
@@ -183,7 +187,7 @@ def test_update(test_app_with_db):
 
 
 def test_empty_update(test_app_with_db):
-    update_data = {}
+    update_data = {"employee_id": "1040050021"}
     response = test_app_with_db.patch(f"{PREFIX}/1", data=json.dumps(update_data))
 
     assert response.status_code == 200
@@ -199,7 +203,11 @@ def test_empty_update(test_app_with_db):
 
 
 def test_not_update(test_app_with_db):
-    update_data = {"description": "tires are being changed", "state": "in process"}
+    update_data = {
+        "description": "tires are being changed",
+        "state": "in process",
+        "employee_id": "1040050021",
+    }
     response = test_app_with_db.patch(f"{PREFIX}/5", data=json.dumps(update_data))
 
     assert response.status_code == 404
@@ -209,7 +217,7 @@ def test_not_update(test_app_with_db):
 
 def test_bad_update(test_app_with_db):
     # Test enum and email validations
-    update_data = {"spare_parts": "tires"}
+    update_data = {"spare_parts": "tires", "employee_id": "1040050021"}
     response = test_app_with_db.patch(f"{PREFIX}/1", data=json.dumps(update_data))
 
     assert response.status_code == 422
