@@ -10,7 +10,7 @@ services:
       - ./:/usr/src/app/
     ports:
       - 7071:8000
-      - 10005:10001
+      - 10001:10001
     env_file:
       - .env
     networks:
