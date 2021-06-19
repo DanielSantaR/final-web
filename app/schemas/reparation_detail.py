@@ -18,6 +18,7 @@ class CreateReparationDetail(BaseReparationDetail):
 
 
 class UpdateReparationDetail(BaseModel):
+    employee_id: str
     description: Optional[str]
     cost: Optional[float]
     spare_parts: Optional[List[str]]

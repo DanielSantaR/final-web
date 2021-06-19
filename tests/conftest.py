@@ -9,7 +9,7 @@ from app.main import create_application
 
 
 def get_settings_override():
-    return Settings(testing=1, database_dev_url=os.environ.get("DATABASE_TEST_URL"))
+    return Settings(TESTING=1, DATABASE_DEV_URL=os.environ.get("DATABASE_TEST_URL"))
 
 
 @pytest.fixture(scope="function")
@@ -20,7 +20,7 @@ def test_app():
 
     with TestClient(app) as test_client:
 
-        # testing
+        # TESTING
         yield test_client
 
 
@@ -30,14 +30,14 @@ def test_app_with_db():
     app = create_application()
     app.dependency_overrides[get_settings] = get_settings_override
 
-    # Link with DB for testing
+    # Link with DB for TESTING
     initializer(
         ["app.infra.postgres.models"],
         db_url=os.environ.get("DATABASE_TEST_URL"),
     )
 
     with TestClient(app) as test_client:
-        # testing
+        # TESTING
         yield test_client
 
     # tear down

@@ -14,11 +14,11 @@ class ICrudBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         raise NotImplementedError
 
     @abstractmethod
-    async def create(self, obj_in: CreateSchemaType) -> Any:
+    async def create(self, *, obj_in: CreateSchemaType) -> Any:
         raise NotImplementedError
 
     @abstractmethod
-    async def update(self, id: int, obj_in: Dict[str, Any]) -> Any:
+    async def update(self, *, id: int, obj_in: Dict[str, Any]) -> Any:
         raise NotImplementedError
 
     @abstractmethod

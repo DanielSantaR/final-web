@@ -21,7 +21,7 @@ class VehicleXOwnerService:
         return new_vehicle_x_owner_id
 
     async def get_vehicle_x_owner_by_id(
-        self, vehicle_x_owner_id: str
+        self, vehicle_x_owner_id: int
     ) -> Union[dict, None]:
         vehicle_x_owner = await self.__vehicle_x_owner_queries.get_by_id(
             id=vehicle_x_owner_id
@@ -61,7 +61,7 @@ class VehicleXOwnerService:
         return vehicle_x_owners
 
     async def update_vehicle_x_owner(
-        self, vehicle_x_owner_id: str, new_vehicle_x_owner: UpdateVehicleXOwner
+        self, vehicle_x_owner_id: int, new_vehicle_x_owner: UpdateVehicleXOwner
     ) -> Optional[Dict[str, Any]]:
         new_vehicle_x_owner_data = new_vehicle_x_owner.dict()
         payload = {
